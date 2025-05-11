@@ -1,0 +1,63 @@
+.game-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  max-width: 500px;
+  font-family: sans-serif;
+}
+
+.teams {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.team {
+  padding: 6px 12px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.team:hover {
+  background-color: #e0e0e0;
+}
+
+.team.selected {
+  border-color: #007acc;
+  background-color: #d0ebff;
+}
+
+.vs {
+  font-weight: bold;
+}
+
+.details {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.banner {
+  font-weight: bold;
+  text-align: center;
+  padding: 6px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin: -12px -12px 12px -12px;
+  color: white;
+}
+
+.banner.thursday {
+  background-color: #003366;
+}
+
+.banner.monday {
+  background-color: #800000;
+}

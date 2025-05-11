@@ -15,12 +15,15 @@ export interface GameDto {
   providedIn: 'root',
 })
 export class GamesService {
-  private apiUrl =
-    'https://localhost:44360/api/Game/GetDtoByWeek?week=1&seasonYear=2024';
+  private baseUrl = 'https://localhost:44360/api/Game/GetDtoByWeek';
 
   constructor(private http: HttpClient) {}
 
-  getWeek1Games(): Observable<GameDto[]> {
-    return this.http.get<GameDto[]>(this.apiUrl);
+  getGamesByWeek(
+    weekNumber: number,
+    seasonYear: number = 2024
+  ): Observable<GameDto[]> {
+    const url = `${this.baseUrl}?week=${weekNumber}&seasonYear=${seasonYear}`;
+    return this.http.get<GameDto[]>(url);
   }
 }
