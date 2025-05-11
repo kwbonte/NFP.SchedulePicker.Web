@@ -1,12 +1,23 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { GamesService, GameDto } from './services/games.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [NgIf, NgFor, DatePipe],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'NFL.SchedulePicker.Web';
+export class AppComponent implements OnInit {
+  title = 'Pick Week 1 - 2024';
+  games: GameDto[] = [];
+
+  constructor(private gamesService: GamesService) {}
+
+  ngOnInit() {
+    this.gamesService.getWeek1Games().subscribe((data) => {
+      this.games = data;
+      console.log('this.games', this.games);
+    });
+  }
 }
