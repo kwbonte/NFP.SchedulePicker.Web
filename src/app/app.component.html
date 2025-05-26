@@ -1,6 +1,17 @@
 <h1>{{ title }}</h1>
 
+<div class="week-selector">
+  <button
+    *ngFor="let week of allWeeks"
+    (click)="loadGames(week)"
+    [class.selected]="week === selectedWeek"
+  >
+    Week {{ week }}
+  </button>
+</div>
+
 <div *ngIf="games.length === 0">Loading games...</div>
+
 <div *ngFor="let game of games">
   <app-game-card [game]="game" (pick)="onPick($event, game)"></app-game-card>
 </div>

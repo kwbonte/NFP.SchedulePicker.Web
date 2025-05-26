@@ -1,5 +1,11 @@
 <div class="game-card">
-  <div class="banner" *ngIf="isThursdayNight">Thursday Night Football</div>
+  <div class="banner thursday" *ngIf="isThursdayNight">
+    Thursday Night Football
+  </div>
+  <div class="banner saturday" *ngIf="isSaturdayNight">
+    Saturday Night Football
+  </div>
+  <div class="banner sunday" *ngIf="isSundayNight">Sunday Night Football</div>
   <div class="banner monday" *ngIf="isMondayNight">Monday Night Football</div>
   <div class="teams">
     <button
@@ -23,6 +29,6 @@
 
   <div class="details">
     <div>{{ game.locationName }}</div>
-    <div>{{ gameTimeCst }}</div>
+    <div>{{ gameDayNameCst }}</div>
   </div>
 </div>

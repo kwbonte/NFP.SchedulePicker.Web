@@ -20,40 +20,91 @@ export class GameCardComponent {
     this.pick.emit(team);
   }
 
-  /** Central time formatter for reuse */
-  private getCentralTimeFormatter(
-    options?: Intl.DateTimeFormatOptions
-  ): Intl.DateTimeFormat {
-    return new Intl.DateTimeFormat('en-US', {
+  /** Game time formatted for display in Central Time */
+  get gameTimeCst(): string {
+    const utcDate = new Date(this.game.gameTimeUtc + 'Z');
+    return utcDate.toLocaleString('en-US', {
       timeZone: 'America/Chicago',
-      ...options,
+      dateStyle: 'short',
+      timeStyle: 'short',
     });
   }
 
-  /** Game time formatted for display in Central Time */
-  get gameTimeCst(): string {
-    const utcDate = new Date(this.game.gameTimeUtc);
-    return this.getCentralTimeFormatter({
-      dateStyle: 'short',
-      timeStyle: 'short',
-    }).format(utcDate);
-  }
-
-  /** Whether this game falls on a Thursday (in CST) */
+  /** Whether this game falls on a Thursday (in Central Time) */
   get isThursdayNight(): boolean {
-    const utcDate = new Date(this.game.gameTimeUtc);
-    const weekday = this.getCentralTimeFormatter({ weekday: 'long' }).format(
-      utcDate
-    );
+    const utcDate = new Date(this.game.gameTimeUtc + 'Z');
+    const weekday = utcDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      weekday: 'long',
+    });
     return weekday === 'Thursday';
   }
 
-  /** Whether this game falls on a Monday (in CST) */
-  get isMondayNight(): boolean {
-    const utcDate = new Date(this.game.gameTimeUtc);
-    const weekday = this.getCentralTimeFormatter({ weekday: 'long' }).format(
-      utcDate
+  get isSaturdayNight(): boolean {
+    const utcDate = new Date(this.game.gameTimeUtc + 'Z');
+
+    const cdtDate = new Date(
+      utcDate.toLocaleString('en-US', { timeZone: 'America/Chicago' })
     );
+
+    const weekday = cdtDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      weekday: 'long',
+    });
+
+    const hour = cdtDate.getHours();
+
+    return weekday === 'Saturday' && hour >= 19;
+  }
+
+  get isSundayNight(): boolean {
+    const utcDate = new Date(this.game.gameTimeUtc + 'Z');
+
+    const cdtDate = new Date(
+      utcDate.toLocaleString('en-US', { timeZone: 'America/Chicago' })
+    );
+
+    const weekday = cdtDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      weekday: 'long',
+    });
+
+    const hour = cdtDate.getHours();
+
+    return weekday === 'Sunday' && hour >= 19;
+  }
+  /** Whether this game falls on a Monday (in Central Time) */
+  get isMondayNight(): boolean {
+    const utcDate = new Date(this.game.gameTimeUtc + 'Z');
+    const weekday = utcDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      weekday: 'long',
+    });
     return weekday === 'Monday';
+  }
+
+  /** Day of the week this game is scheduled, in Central Time */
+  get gameDayNameCst(): string {
+    const utcDate = new Date(this.game.gameTimeUtc + 'Z');
+
+    const weekday = utcDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      weekday: 'long',
+    });
+
+    const date = utcDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    const time = utcDate.toLocaleString('en-US', {
+      timeZone: 'America/Chicago',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    return `${weekday}, ${date} at ${time}`;
   }
 }
